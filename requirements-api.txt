@@ -4,3 +4,7 @@ pydantic
 python-multipart
 slowapi
 prometheus-fastapi-instrumentator
+torch
+torchvision
+torchaudio
+transformers

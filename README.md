@@ -11,6 +11,8 @@
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 [![Live Demo](https://img.shields.io/badge/Live-Demo-orange?style=for-the-badge&logo=streamlit)](https://spamshield-ai-demo.streamlit.app/)
 
+<img src="src/assets/spam.png" alt="SpamShield AI Landing Page" width="100%">
+
 **SpamShield AI - AI-powered email spam classifier**
 
 [Features](#-features) • [Quick Start](#-quick-start) • [Documentation](#-documentation) • [API](#-api-endpoints) • [Deployment](#-deployment)
