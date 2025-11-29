@@ -1,0 +1,6 @@
+fastapi
+uvicorn[standard]
+pydantic
+python-multipart
+slowapi
+prometheus-fastapi-instrumentator

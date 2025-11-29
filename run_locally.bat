@@ -1,0 +1,13 @@
+@echo off
+echo Starting Email Spam Classifier Locally...
+
+echo 1. Starting FastAPI Server...
+start "Spam Classifier API" cmd /k "python run_api.py"
+
+echo Waiting for API to initialize...
+timeout /t 5 /nobreak >nul
+
+echo 2. Starting Streamlit UI...
+streamlit run app_enhanced.py
+
+pause

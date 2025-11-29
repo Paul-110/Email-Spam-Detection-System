@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  # Streamlit UI Service
+  streamlit-ui:
+    build: .
+    container_name: spam-classifier-ui
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./logs:/app/logs
+    command: streamlit run app_enhanced.py --server.address=0.0.0.0
+    environment:
+      - LOG_LEVEL=INFO
+      - ENVIRONMENT=production
+    restart: unless-stopped
+    networks:
+      - app-network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8501/_stcore/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # FastAPI Service
+  api:
+    build: .
+    container_name: spam-classifier-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./logs:/app/logs
+    command: python run_api.py
+    environment:
+      - LOG_LEVEL=INFO
+      - ENVIRONMENT=production
+    restart: unless-stopped
+    networks:
+      - app-network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8000/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - app-network
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks:
+      - app-network
+    depends_on:
+      - prometheus
+
+networks:
+  app-network:
+    driver: bridge
